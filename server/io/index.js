@@ -16,11 +16,23 @@ const client = redis.createClient({url: 'redis://10.15.6.28:6380'});
 // });
 
 io.on('connection', (socket) => {
-
+  
   socket.on('message', msg => {
     d = Date();
-    client.set(d, JSON.stringify(msg));
 
+    (async () => {
+      await client.connect();
+  
+      console.log("New record for Redis: ", d, msg);
+      
+      client.set(d, JSON.stringify(msg)).then(() => {
+        console.info("Record done");
+        client.disconnect();
+      });
+  
+      
+    })()
+        
     switch (msg.recipient) {
       case 'server':
         console.log(`We got message from ${msg.sender} to ${msg.recipient}: ${msg.message}`);
