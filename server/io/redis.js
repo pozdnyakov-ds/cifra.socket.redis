@@ -1,5 +1,6 @@
 const redis = require('redis');
-const client = redis.createClient({url: 'redis://192.168.0.62:6379'});
+//const client = redis.createClient({url: 'redis://192.168.0.62:6379'});
+const client = redis.createClient({url: 'redis://10.15.6.28:6380'});
 console.log('Redis test start...');
 
 client.on('connect', () => {
